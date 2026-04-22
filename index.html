@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Trace anything. Draw simply.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>Tracer Sketch</title>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════
+       HOME SCREEN
+  ═════════════════════════════════════════════ -->
+  <div class="screen active" id="s-home">
+
+    <div class="home-topbar">
+      <div class="home-topbar-spacer"></div>
+      <button class="icon-btn" onclick="openGallery()" title="Gallery">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="home-scroll">
+
+      <div class="home-logo-wrap">
+        <!-- Book + Pencil Logo -->
+        <svg class="home-logo" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="18" width="38" height="30" rx="3" stroke="#1c1c1e" stroke-width="2" fill="#fff"/>
+          <line x1="10" y1="33" x2="48" y2="33" stroke="#1c1c1e" stroke-width="1.5"/>
+          <line x1="16" y1="39" x2="38" y2="39" stroke="#d4cfc6" stroke-width="1.5"/>
+          <line x1="16" y1="44" x2="32" y2="44" stroke="#d4cfc6" stroke-width="1.5"/>
+          <path d="M 10 21 Q 29 26 48 21" stroke="#1c1c1e" stroke-width="1.5" fill="none"/>
+          <rect x="44" y="28" width="9" height="26" rx="1" transform="rotate(-35 44 28)" fill="#f5c842" stroke="#c8a200" stroke-width="1"/>
+          <path d="M 50 48 L 54 56 L 58 48" fill="#f5c842" stroke="#c8a200" stroke-width="0.8"/>
+          <path d="M 52 54 L 54 58 L 56 54" fill="#e8e0c8" stroke="#c8b890" stroke-width="0.5"/>
+          <path d="M 53.5 56.5 L 54 58.5 L 54.5 56.5" fill="#333"/>
+        </svg>
+        <h1 class="home-title">Tracer Sketch</h1>
+        <p class="home-sub">Trace anything. Draw simply.</p>
+      </div>
+
+      <!-- Apple hero illustration -->
+      <div class="apple-hero">
+        <!-- Photo-like grayscale apple -->
+        <svg width="130" height="150" viewBox="0 0 130 150" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="ag1" cx="38%" cy="32%" r="58%">
+              <stop offset="0%" stop-color="#d8d8d8"/>
+              <stop offset="35%" stop-color="#a0a0a0"/>
+              <stop offset="75%" stop-color="#686868"/>
+              <stop offset="100%" stop-color="#3a3a3a"/>
+            </radialGradient>
+            <radialGradient id="ag2" cx="72%" cy="72%" r="30%">
+              <stop offset="0%" stop-color="#888" stop-opacity=".3"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <radialGradient id="leaf1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#909090"/>
+              <stop offset="100%" stop-color="#505050"/>
+            </radialGradient>
+          </defs>
+          <path d="M 66 22 C 68 12 76 10 80 14" stroke="#5a4a38" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M 66 22 C 74 10 86 14 84 24 C 78 28 68 26 66 22 Z" fill="url(#leaf1)"/>
+          <path d="M 65 30 C 40 28 22 52 24 78 C 26 104 40 130 65 132 C 90 130 104 104 106 78 C 108 52 90 28 65 30 Z" fill="url(#ag1)"/>
+          <path d="M 65 30 C 40 28 22 52 24 78 C 26 104 40 130 65 132 C 90 130 104 104 106 78 C 108 52 90 28 65 30 Z" fill="url(#ag2)"/>
+          <ellipse cx="48" cy="58" rx="11" ry="16" fill="white" opacity=".22" transform="rotate(-15 48 58)"/>
+          <ellipse cx="44" cy="52" rx="5" ry="7" fill="white" opacity=".3" transform="rotate(-15 44 52)"/>
+          <path d="M 65 30 C 64 40 64 50 65 60" stroke="#444" stroke-width="1" fill="none" opacity=".4"/>
+        </svg>
+
+        <!-- Sketch-style apple outline -->
+        <svg width="130" height="150" viewBox="0 0 130 150" xmlns="http://www.w3.org/2000/svg" class="apple-sketch-svg">
+          <style>.sk { stroke:#333; fill:none; stroke-linecap:round; stroke-linejoin:round; }</style>
+          <path class="sk" d="M 66 22 C 68 12 76 10 80 14" stroke-width="1.8"/>
+          <path class="sk" d="M 66 22 C 74 10 86 14 84 24 C 78 28 68 26 66 22 Z" stroke-width="1.4"/>
+          <path class="sk" d="M 66 22 C 76 14 84 20" stroke-width=".8" stroke="#888"/>
+          <path class="sk" d="M 65 30 C 40 28 22 52 24 78 C 26 104 40 130 65 132 C 90 130 104 104 106 78 C 108 52 90 28 65 30 Z" stroke-width="1.8"/>
+          <path class="sk" d="M 65 30 C 64 40 64 50 65 58" stroke-width="1" stroke="#999"/>
+          <path class="sk" d="M 34 60 C 31 72 33 88 36 100" stroke-width=".9" stroke="#aaa"/>
+          <path class="sk" d="M 28 68 C 26 76 27 86 30 96" stroke-width=".7" stroke="#bbb"/>
+          <path class="sk" d="M 40 50 C 38 62 39 78 42 92" stroke-width=".8" stroke="#bbb"/>
+          <path class="sk" d="M 96 60 C 99 72 97 88 94 100" stroke-width=".9" stroke="#aaa"/>
+          <path class="sk" d="M 102 68 C 104 76 103 86 100 96" stroke-width=".7" stroke="#bbb"/>
+          <path class="sk" d="M 40 46 C 46 40 56 40 62 44" stroke-width="1.2" stroke="#ccc"/>
+        </svg>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="home-btns">
+        <button class="btn-dark" onclick="goTo('studio')">Upload a Photo</button>
+        <button class="btn-outline" onclick="loadSampleSketch()">Try Sample Sketch</button>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="home-badges">
+        <div class="badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Trust
+        </div>
+        <div class="badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="1" y1="1" x2="23" y2="23"/>
+            <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55M5 12.55a10.94 10.94 0 0 1 5.17-2.39M10.71 5.05A16 16 0 0 1 22.56 9M1.42 9a15.91 15.91 0 0 1 4.7-2.88M8.53 16.11a6 6 0 0 1 6.95 0M12 20h.01"/>
+          </svg>
+          Offline
+        </div>
+      </div>
+      <p class="home-tagline">Offline-first. Data stays on device.</p>
+      <div class="home-spacer"></div>
+
+    </div><!-- /home-scroll -->
+  </div><!-- /s-home -->
+
+
+  <!-- ════════════════════════════════════════════
+       SKETCH STUDIO
+  ═════════════════════════════════════════════ -->
+  <div class="screen" id="s-studio">
+
+    <div class="topbar">
+      <button class="icon-btn" onclick="goTo('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <span class="topbar-title">Sketch Studio</span>
+      <button class="icon-btn" onclick="openGallery()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="scroll-body">
+      <div class="studio-body">
+
+        <!-- Upload Zone -->
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" id="file-input" accept="image/*">
+          <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <div class="upload-title">Tap to upload a photo</div>
+          <div class="upload-sub">JPG · PNG · WEBP · or take photo</div>
+        </div>
+
+        <!-- Preview (hidden until image loaded) -->
+        <div id="preview-section" class="preview-hidden">
+
+          <div class="canvas-pair">
+            <div class="canvas-card">
+              <canvas id="orig-canvas"></canvas>
+              <div class="canvas-badge">Original</div>
+            </div>
+            <div class="canvas-card canvas-card-sketch">
+              <canvas id="sketch-canvas"></canvas>
+              <div class="canvas-badge">Sketch</div>
+              <div class="processing-veil" id="proc-veil">
+                <div class="spin"></div>
+                <div class="processing-label">Processing…</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-label">Style</div>
+          <div class="style-pills">
+            <button class="pill active" data-s="pencil" onclick="setStyle(this)">✏️ Pencil</button>
+            <button class="pill" data-s="ink" onclick="setStyle(this)">🖊 Ink</button>
+            <button class="pill" data-s="charcoal" onclick="setStyle(this)">🪨 Charcoal</button>
+          </div>
+
+          <div class="section-label">Adjust</div>
+          <div class="controls">
+            <div class="ctrl">
+              <div class="ctrl-head">
+                <span class="ctrl-name">Detail</span>
+                <span class="ctrl-val" id="v-detail">5</span>
+              </div>
+              <input type="range" id="r-detail" min="1" max="10" value="5" oninput="onCtrl()">
+            </div>
+            <div class="ctrl">
+              <div class="ctrl-head">
+                <span class="ctrl-name">Darkness</span>
+                <span class="ctrl-val" id="v-dark">5</span>
+              </div>
+              <input type="range" id="r-dark" min="1" max="10" value="5" oninput="onCtrl()">
+            </div>
+            <div class="ctrl">
+              <div class="ctrl-head">
+                <span class="ctrl-name">Smoothness</span>
+                <span class="ctrl-val" id="v-smooth">3</span>
+              </div>
+              <input type="range" id="r-smooth" min="1" max="10" value="3" oninput="onCtrl()">
+            </div>
+          </div>
+
+          <div class="studio-actions">
+            <button class="btn-dark" onclick="useForTrace()">Use for Tracing</button>
+            <div class="btn-row">
+              <button class="btn-sm-outline" onclick="saveSketch()">💾 Save</button>
+              <button class="btn-sm-outline" onclick="exportSketch()">⬇ Export</button>
+            </div>
+            <button class="btn-sm-outline" onclick="resetStudio()">↺ New Photo</button>
+          </div>
+
+        </div><!-- /preview-section -->
+      </div>
+    </div>
+
+  </div><!-- /s-studio -->
+
+
+  <!-- ════════════════════════════════════════════
+       TRACE MODE
+  ═════════════════════════════════════════════ -->
+  <div class="screen" id="s-trace">
+
+    <div class="trace-viewport" id="trace-vp">
+      <video id="cam-video" playsinline autoplay muted></video>
+      <canvas id="cam-canvas"></canvas>
+      <canvas id="overlay-canvas"></canvas>
+
+      <!-- Overlay top bar -->
+      <div class="trace-topbar">
+        <button class="trace-icon-btn" onclick="exitTrace()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+        <button class="trace-icon-btn" onclick="flipCamera()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M20 7h-9"/>
+            <path d="M14 17H5"/>
+            <polyline points="17 4 20 7 17 10"/>
+            <polyline points="8 14 5 17 8 20"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Empty state: no sketch loaded -->
+      <div class="trace-empty" id="trace-empty">
+        <div class="trace-empty-icon">🖼</div>
+        <div class="trace-empty-title">No sketch loaded</div>
+        <div class="trace-empty-sub">Go to Sketch Studio, upload a photo and tap "Use for Tracing".</div>
+        <button class="btn-outline trace-empty-btn" onclick="goTo('studio')">Open Studio</button>
+      </div>
+
+      <!-- Camera permission error -->
+      <div class="cam-error" id="cam-error">
+        <div class="cam-error-icon">📵</div>
+        <div class="cam-error-title">Camera needed</div>
+        <div class="cam-error-sub">Allow camera access in browser settings,<br>then refresh the page.</div>
+      </div>
+
+    </div><!-- /trace-vp -->
+
+    <!-- Bottom Control Panel -->
+    <div class="trace-panel">
+      <div class="trace-panel-inner">
+
+        <!-- Sliders column -->
+        <div class="trace-sliders">
+          <div class="trace-ctrl">
+            <div class="trace-ctrl-head">
+              <span class="trace-ctrl-name">Sketch Opacity</span>
+              <span class="trace-ctrl-val" id="v-opacity">60%</span>
+            </div>
+            <input type="range" id="r-opacity" min="5" max="100" value="60" oninput="setOpacity(this.value)">
+          </div>
+          <div class="trace-ctrl">
+            <div class="trace-ctrl-head">
+              <span class="trace-ctrl-name">Line Thickness</span>
+              <span class="trace-ctrl-val" id="v-thick">1</span>
+            </div>
+            <input type="range" id="r-thick" min="1" max="5" value="1" step="0.5" oninput="setThickness(this.value)">
+          </div>
+        </div>
+
+        <!-- 2×2 icon grid -->
+        <div class="trace-icon-grid">
+          <button class="trace-grid-btn" id="btn-rotate" onclick="rotateSketch()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M23 4v6h-6"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            Rotate
+          </button>
+          <button class="trace-grid-btn" id="btn-flip-h" onclick="toggleFlipH()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h3"/>
+              <path d="M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+            </svg>
+            Flip
+          </button>
+          <button class="trace-grid-btn" id="btn-flip-v" onclick="toggleFlipV()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/>
+              <path d="M21 16v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3"/>
+              <line x1="4" y1="12" x2="20" y2="12"/>
+            </svg>
+            Flip
+          </button>
+          <button class="trace-grid-btn" id="btn-grid" onclick="toggleGrid()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="3" y1="9" x2="21" y2="9"/>
+              <line x1="3" y1="15" x2="21" y2="15"/>
+              <line x1="9" y1="3" x2="9" y2="21"/>
+              <line x1="15" y1="3" x2="15" y2="21"/>
+            </svg>
+            Grid Overlay
+          </button>
+        </div>
+
+      </div><!-- /trace-panel-inner -->
+
+      <button class="btn-lock" id="btn-lock" onclick="toggleLock()">Lock Reference</button>
+    </div><!-- /trace-panel -->
+
+  </div><!-- /s-trace -->
+
+
+  <!-- ════════════════════════════════════════════
+       GALLERY BOTTOM SHEET
+  ═════════════════════════════════════════════ -->
+  <div class="gallery-sheet" id="gallery-sheet" onclick="closeGallery(event)">
+    <div class="gallery-inner">
+      <div class="gallery-drag-handle"></div>
+      <div class="gallery-title">Saved Sketches</div>
+      <div id="gallery-content"></div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-wrap"></div>
+
+  <!-- Hidden off-screen canvas for image processing -->
+  <canvas id="work-canvas"></canvas>
+
+  <script src="app.js"></script>
+</body>
+</html>
