@@ -19,34 +19,8 @@
 ───────────────────────────────────────────────────── */
 (function registerSW() {
   if (!('serviceWorker' in navigator)) return;
-
-  const swCode = `
-    const CACHE = 'tracer-sketch-v1';
-    self.addEventListener('install', e => {
-      self.skipWaiting();
-      e.waitUntil(caches.open(CACHE).then(c => c.addAll([self.registration.scope])));
-    });
-    self.addEventListener('activate', e => {
-      e.waitUntil(clients.claim());
-    });
-    self.addEventListener('fetch', e => {
-      e.respondWith(
-        caches.match(e.request).then(r =>
-          r || fetch(e.request).then(res => {
-            const clone = res.clone();
-            caches.open(CACHE).then(c => c.put(e.request, clone));
-            return res;
-          }).catch(() => caches.match(e.request))
-        )
-      );
-    });
-  `;
-
-  try {
-    const blob = new Blob([swCode], { type: 'application/javascript' });
-    const url  = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(url).catch(() => {});
-  } catch (e) {}
+  navigator.serviceWorker.register('./sw.js')
+    .catch(err => console.warn('SW registration failed:', err));
 })();
 
 
@@ -692,6 +666,9 @@ const Trace = {
     const vp = document.getElementById('trace-vp');
 
     vp.addEventListener('touchstart', e => {
+      /* If the touch started on a button or inside one, let it fire normally */
+      if (e.target.closest('button')) return;
+
       if (e.touches.length === 1) {
         this.dragging = true;
         this.lastX    = e.touches[0].clientX;
@@ -707,6 +684,9 @@ const Trace = {
     }, { passive: false });
 
     vp.addEventListener('touchmove', e => {
+      /* Don't interfere with buttons */
+      if (e.target.closest('button')) return;
+
       if (e.touches.length === 1 && this.dragging && !this.locked) {
         this.panX += e.touches[0].clientX - this.lastX;
         this.panY += e.touches[0].clientY - this.lastY;

@@ -1,0 +1,18 @@
+{
+  "name": "Tracer Sketch",
+  "short_name": "TracerSketch",
+  "description": "Trace anything. Draw simply.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
