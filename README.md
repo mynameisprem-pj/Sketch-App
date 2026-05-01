@@ -1,3 +1,4 @@
+<img width="1024" height="766" alt="TypingQuest - Brave 4_24_2026 1_14_02 PM" src="https://github.com/user-attachments/assets/c015f255-dc18-4152-932e-ca319d3a3ddc" />
 # Tracer Sketch
 
 > Trace anything. Draw simply.
