@@ -504,8 +504,11 @@ function loadSampleSketch() {
 ───────────────────────────────────────────────────── */
 const Trace = {
 
-  sketchImg:   null,
-  sketchURL:   null,
+  sketchImg:    null,
+  sketchURL:    null,
+  outlineCanvas: null,   // pre-processed outline-only layer
+  shadingCanvas: null,   // pre-processed shading-only layer
+  layerMode:    'full',  // 'full' | 'outline' | 'shading'
   stream:      null,
   raf:         null,
   wakeLock:    null,
@@ -530,12 +533,65 @@ const Trace = {
   pinchDist: null,
   pinchZoom: 1,
 
-  /* Load a sketch dataURL into an Image element */
+  /* Load a sketch dataURL — pre-generate all three layers */
   setSketch(dataURL) {
     this.sketchURL = dataURL;
-    const img  = new Image();
-    img.onload = () => { this.sketchImg = img; };
-    img.src    = dataURL;
+    const img = new Image();
+    img.onload = () => {
+      this.sketchImg = img;
+      this._buildLayers(img);
+    };
+    img.src = dataURL;
+  },
+
+  /* Pre-process outline and shading into offscreen canvases */
+  _buildLayers(img) {
+    const w = img.naturalWidth;
+    const h = img.naturalHeight;
+
+    /* ── Helper: draw img to an offscreen canvas, return {canvas, ctx, data} */
+    const makeCanvas = () => {
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      return { c, ctx, px: ctx.getImageData(0, 0, w, h) };
+    };
+
+    /* ── OUTLINE layer
+       Keep only pixels darker than a threshold (the hard edges).
+       Everything lighter becomes white.
+       Threshold 200 means: only pixels with brightness < 200 survive. */
+    const { c: oc, px: opx } = makeCanvas();
+    const od = opx.data;
+    for (let i = 0; i < od.length; i += 4) {
+      const brightness = od[i]; // grayscale so R=G=B
+      if (brightness > 185) {
+        od[i] = od[i+1] = od[i+2] = 255; // force white
+      }
+      // dark pixels stay as-is — those are the lines
+    }
+    oc.getContext('2d').putImageData(opx, 0, 0);
+    this.outlineCanvas = oc;
+
+    /* ── SHADING layer
+       Keep only the soft gradient tones — suppress the hard lines.
+       Pixels below threshold (hard edges) get lifted toward white,
+       mid-tone pixels are kept — those carry shading information. */
+    const { c: sc, px: spx } = makeCanvas();
+    const sd = spx.data;
+    for (let i = 0; i < sd.length; i += 4) {
+      const brightness = sd[i];
+      if (brightness < 160) {
+        // hard dark edge — blend it up toward mid-grey so lines disappear
+        const lifted = Math.min(255, brightness + 120);
+        sd[i] = sd[i+1] = sd[i+2] = lifted;
+      }
+      // mid-tones (160–240) stay: these are the shading gradients
+      // near-white (>240) stays white
+    }
+    sc.getContext('2d').putImageData(spx, 0, 0);
+    this.shadingCanvas = sc;
   },
 
   /* Called when entering Trace screen */
@@ -543,6 +599,11 @@ const Trace = {
     const emptyEl = document.getElementById('trace-empty');
     emptyEl.style.display = this.sketchImg ? 'none' : 'flex';
     if (!this.sketchImg) return;
+
+    /* Reset layer toggle to Full each time trace opens */
+    this.layerMode = 'full';
+    document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('layer-full').classList.add('active');
 
     document.getElementById('cam-error').classList.remove('show');
     await this.startCamera();
@@ -625,6 +686,16 @@ const Trace = {
       const ctx  = ovC.getContext('2d');
       ctx.clearRect(0, 0, W, H);
 
+      /* Pick the right source based on current layer mode */
+      let source;
+      if (this.layerMode === 'outline' && this.outlineCanvas) {
+        source = this.outlineCanvas;
+      } else if (this.layerMode === 'shading' && this.shadingCanvas) {
+        source = this.shadingCanvas;
+      } else {
+        source = this.sketchImg; // 'full' — original sketch
+      }
+
       ctx.save();
       ctx.globalAlpha = this.opacity;
       ctx.translate(W / 2 + this.panX, H / 2 + this.panY);
@@ -640,7 +711,7 @@ const Trace = {
       if (this.thickness > 1) {
         ctx.filter = `blur(${(this.thickness - 1) * 0.8}px) contrast(12)`;
       }
-      ctx.drawImage(this.sketchImg, -sw * s / 2, -sh * s / 2, sw * s, sh * s);
+      ctx.drawImage(source, -sw * s / 2, -sh * s / 2, sw * s, sh * s);
       ctx.restore();
 
       /* ── Grid overlay ── */
@@ -709,6 +780,15 @@ const Trace = {
 };
 
 /* Trace control handlers */
+function setLayerMode(mode, el) {
+  Trace.layerMode = mode;
+  document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+
+  const labels = { full: 'Full Sketch', outline: 'Outline only', shading: 'Shading only' };
+  toast(labels[mode]);
+}
+
 function setOpacity(v) {
   Trace.opacity = v / 100;
   document.getElementById('v-opacity').textContent = v + '%';

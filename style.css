@@ -802,6 +802,35 @@ input[type="range"]::-moz-range-thumb {
 .trace-grid-btn.on { color: var(--text); background: var(--cream); }
 .trace-grid-btn svg { width: 18px; height: 18px; }
 
+/* Layer mode toggle: Full / Outline / Shading */
+.layer-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.layer-btn {
+  padding: 9px 4px;
+  border-radius: var(--r-full);
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-family: var(--body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  text-align: center;
+  transition: all .18s;
+  letter-spacing: -.1px;
+}
+
+.layer-btn.active {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+}
+
 /* Lock button */
 .btn-lock {
   width: 100%;
