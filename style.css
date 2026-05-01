@@ -803,7 +803,7 @@ input[type="range"]::-moz-range-thumb {
 .trace-grid-btn svg { width: 18px; height: 18px; }
 
 /* Layer mode toggle: Full / Outline / Shading */
-.layer-toggle {
+/* .layer-toggle {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 6px;
@@ -829,10 +829,10 @@ input[type="range"]::-moz-range-thumb {
   background: var(--text);
   color: #fff;
   border-color: var(--text);
-}
+} */
 
 /* Lock button */
-.btn-lock {
+/* .btn-lock {
   width: 100%;
   padding: 16px;
   border-radius: var(--r-full);
@@ -854,7 +854,7 @@ input[type="range"]::-moz-range-thumb {
 
 .btn-lock.locked {
   background: #2e7d32;
-}
+} */
 
 
 /* ─────────────────────────────────────────────────────
